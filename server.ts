@@ -11,7 +11,7 @@ if (process.env.NODE_ENV !== 'production') {
 const app = express()
 
 const PORT = process.env.PORT;
-const DBURI:string = process.env.dbURI
+const DBURI:string = process.env.dbURI!;
 
 
         

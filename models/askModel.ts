@@ -12,9 +12,8 @@ const askSchema = new mongoose.Schema({
     image: {
         type: String
     }
-}, {timestamp: true})
+},{timestamps: true})
 
-
-const Ask = new mongoose.Model("Ask", askSchema)
+const Ask = mongoose.model("Ask", askSchema)
 
 export default Ask

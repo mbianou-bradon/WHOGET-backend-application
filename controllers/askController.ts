@@ -5,7 +5,7 @@ import Ask from "../models/askModel"
 
 
 // Create a new exercise and store in database
-export const createAsk = async(req: Express.Request, res:Express.Response, next)=>{
+export const createAsk = async(req: Express.Request, res:Express.Response, next:any)=>{
 
     const {message, category, image} = req.body
    
@@ -28,7 +28,7 @@ export const createAsk = async(req: Express.Request, res:Express.Response, next)
 
 
 // Get a new exercise
-export const getAsk = async(req: Express.Request, res:Express.Response, next)=>{
+export const getAsk = async(req: Express.Request, res:Express.Response, next:any)=>{
     const { id }  = req.params;
 
 
@@ -52,7 +52,7 @@ export const getAsk = async(req: Express.Request, res:Express.Response, next)=>{
 
 
 //Get all the exercise
-export const getAllAsks =async (req: Express.Request, res:Express.Response, next)=>{
+export const getAllAsks =async (req: Express.Request, res:Express.Response, next:any)=>{
     const asks = await Ask.find({}).sort({createdAt: -1})
     
     // next(res.status(200).send('It worked!'));
@@ -65,7 +65,7 @@ export const getAllAsks =async (req: Express.Request, res:Express.Response, next
 
 
 // Update an exercise
-export const updateAsk = async(req: Express.Request, res:Express.Response, next)=> {
+export const updateAsk = async(req: Express.Request, res:Express.Response, next:any)=> {
     const { id } = req.params
 
     if(!mongoose.Types.ObjectId.isValid(id)){
@@ -100,7 +100,7 @@ export const updateAsk = async(req: Express.Request, res:Express.Response, next)
 };
 
 // Delete an exercise
-export const deleteAsk = async(req: Express.Request, res:Express.Response, next) => {
+export const deleteAsk = async(req: Express.Request, res:Express.Response, next:any) => {
     const { id } = req.params;
 
     if(!mongoose.Types.ObjectId.isValid(id)){
