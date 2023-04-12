@@ -1,5 +1,6 @@
 import express from"express"
-import mongoose from"mongoose"
+import mongoose from "mongoose"
+import askRoutes from "./routes/askRoutes"
 
 
 
@@ -36,3 +37,5 @@ app.use((req, res, next)=>{
     console.log(req.path, req.method);
     next();
 });
+
+app.use('/api/asks', askRoutes);
