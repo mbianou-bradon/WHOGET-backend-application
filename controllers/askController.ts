@@ -1,6 +1,7 @@
 import Express from "express"
 import mongoose from "mongoose"
 import Ask from "../models/askModel"
+import Category from "../models/categoryModel"
 
 
 
@@ -53,11 +54,46 @@ export const getAsk = async(req: Express.Request, res:Express.Response, next:any
 
 //Get all the exercise
 export const getAllAsks =async (req: Express.Request, res:Express.Response, next:any)=>{
-    const asks = await Ask.find({}).sort({createdAt: -1})
+    let page = Number(String(req.query.page)) - 1 || 0 ;
+    const limit = Number(String((req.query.limit))) || 10;
+    const search = req.query.search || "";
+
+    let category: string | string[] = String(req.query.category)! || "All";
+
     
+
+    const categories = await Category.find({}).sort({createdAt: -1})
+
+    const allCategories = categories.map(category => {
+        return category.name;
+    })
+
+    category === "All" ? (category  = [...allCategories])
+                        : (category = category.split(","));
+
+
+    const asks = await Ask.find({ message: { $regex: search, $options: "i"}}).sort({createdAt: -1})
+                    .where("category")
+                    .in([...category])
+                    .skip(page*limit)
+                    .limit(limit);
+
+    const result = await Ask.countDocuments({
+        category: {$in: [...category]},
+        name: { $regex: search, $options: "i"}
+    })
+    
+    const response = {
+        error: false,
+        result,
+        limit,
+        page: page + 1,
+        category : categories,
+        asks
+    }
     // next(res.status(200).send('It worked!'));
     return next(
-        res.status(200).json(asks)
+        res.status(200).json(response)
     )
     
 };
