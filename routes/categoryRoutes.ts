@@ -1,5 +1,5 @@
 import Express from "express"
-import { createCategory, getAllCategories, getCategory, deleteCategory, updateCategory} from "../controllers/askController"
+import { createCategory, getAllCategories, getCategory, deleteCategory, updateCategory} from "../controllers/categoryController"
 
 
 const router = Express.Router()
@@ -15,7 +15,7 @@ router.post('/', createCategory);
 router.get('/:id', getCategory);
 
 //Delete an Category
-router.delete('/:delete', deleteCategory);
+router.delete('/:id', deleteCategory);
 
 //Update an Category
 router.patch('/:id', updateCategory);

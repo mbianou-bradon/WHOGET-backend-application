@@ -7,12 +7,14 @@ import User from "../models/userModel"
 // Create a new User and store in database
 export const createUser = async(req: Express.Request, res:Express.Response, next:any)=>{
 
-    const {message, category, image} = req.body
+    const {username, profileImage, category, ban} = req.body
    
     const user = {
-        message,
+        username,
+        profileImage,
         category,
-        image
+        ban
+
     }
 
     const newUser = await User.create(user)

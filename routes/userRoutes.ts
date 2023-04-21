@@ -1,4 +1,6 @@
 import Express from "express"
+import { createUser, deleteUser, getAllUsers, getUser, updateUser } from "../controllers/userController";
+
 
 
 const router = Express.Router()
@@ -14,7 +16,7 @@ router.post('/', createUser);
 router.get('/:id', getUser);
 
 //Delete a User
-router.delete('/:delete', deleteUser);
+router.delete('/:id', deleteUser);
 
 //Update a User
 router.patch('/:id', updateUser);

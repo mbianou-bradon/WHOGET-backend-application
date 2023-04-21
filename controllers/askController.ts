@@ -8,12 +8,14 @@ import Category from "../models/categoryModel"
 // Create a new exercise and store in database
 export const createAsk = async(req: Express.Request, res:Express.Response, next:any)=>{
 
-    const {message, category, image} = req.body
+    const {message, category, image, duration, visibility} = req.body
    
     const ask = {
         message,
         category,
-        image
+        image,
+        duration,
+        visibility
     }
 
     const newAsk = await Ask.create(ask)
@@ -80,7 +82,7 @@ export const getAllAsks =async (req: Express.Request, res:Express.Response, next
 
     const result = await Ask.countDocuments({
         category: {$in: [...category]},
-        name: { $regex: search, $options: "i"}
+        // name: { $regex: search, $options: "i"}
     })
     
     const response = {

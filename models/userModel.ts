@@ -10,8 +10,12 @@ const userSchema = new mongoose.Schema({
         required: [true, "profileImage is required"]
     },
     category: {
-        type: Array,
+        type: [String],
         required: [true, "user must subscribe to atleast one category"]
+    },
+    ban: {
+        type: Boolean,
+        required: [true, "It is neccessary to specify the ban status of a user"]
     }
 }, { timestamps: true })
 

@@ -15,7 +15,7 @@ router.post('/', createAsk);
 router.get('/:id', getAsk);
 
 //Delete an ASK
-router.delete('/:delete', deleteAsk);
+router.delete('/:id', deleteAsk);
 
 //Update an ASK
 router.patch('/:id', updateAsk);

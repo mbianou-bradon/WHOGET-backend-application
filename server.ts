@@ -1,6 +1,8 @@
 import express from"express"
 import mongoose from "mongoose"
 import askRoutes from "./routes/askRoutes"
+import userRoutes from "./routes/userRoutes"
+import categoryRoutes from "./routes/categoryRoutes"
 
 
 
@@ -12,7 +14,6 @@ const app = express()
 
 const PORT = process.env.PORT;
 const DBURI:string = process.env.dbURI!;
-
 
         
 // Connect to MongoDB
@@ -39,3 +40,5 @@ app.use((req, res, next)=>{
 });
 
 app.use('/api/asks', askRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/category', categoryRoutes);

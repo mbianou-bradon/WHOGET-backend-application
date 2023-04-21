@@ -11,6 +11,14 @@ const askSchema = new mongoose.Schema({
     },
     image: {
         type: String
+    },
+    duration: {
+        type: Number,
+        required: [true, "Please enter duration of the ask"]
+    },
+    visibility: {
+        type: Boolean,
+        required: [true, "Give visibility of ask"]
     }
 },{timestamps: true})
 
