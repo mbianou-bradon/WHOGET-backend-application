@@ -55,11 +55,38 @@ export const getUser = async(req: Express.Request, res:Express.Response, next:an
 
 //Get all the User
 export const getAllUsers =async (req: Express.Request, res:Express.Response, next:any)=>{
-    const users = await User.find({}).sort({createdAt: -1})
+    // const users = await User.find({}).sort({createdAt: -1})
     
+    let page = Number(String(req.query.page)) - 1 || 0 ;
+    const limit = Number(String((req.query.limit))) || 10;
+    const search = req.query.search || "";
+
+    // let username: string | string[] = String(req.query.users)! || "All";
+
+
+    const users = await User.find({ username: { $regex: search, $options: "i"}}).sort({createdAt: -1})
+                    .skip(page*limit)
+                    .limit(limit);
+
+    const result = await User.countDocuments({
+        // category: {$in: [...category]},
+        username: { $regex: search, $options: "i"}
+    })
+    
+    const response = {
+        error: false,
+        result,
+        limit,
+        page: page + 1,
+        users
+    }
+
+
+
+
     // next(res.status(200).send('It worked!'));
     return next(
-        res.status(200).json(users)
+        res.status(200).json(response)
     )
     
 };
