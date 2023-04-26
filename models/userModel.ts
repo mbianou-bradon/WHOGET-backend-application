@@ -24,6 +24,9 @@ const userSchema = new mongoose.Schema({
         type: [String],
         required: [true, "user must subscribe to atleast one category"]
     },
+    strikes : {
+        type : Number,
+    },
     ban: {
         type: Boolean,
         required: [true, "It is neccessary to specify the ban status of a user"]
