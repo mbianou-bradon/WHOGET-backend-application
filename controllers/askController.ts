@@ -8,14 +8,16 @@ import Category from "../models/categoryModel"
 // Create a new exercise and store in database
 export const createAsk = async(req: Express.Request, res:Express.Response, next:any)=>{
 
-    const {message, category, image, duration, visibility} = req.body
+    const {message, category, image, duration, visibility,report, userProfile} = req.body
    
     const ask = {
         message,
         category,
         image,
         duration,
-        visibility
+        visibility,
+        report,
+        userProfile
     }
 
     const newAsk = await Ask.create(ask)
@@ -56,19 +58,18 @@ export const getAsk = async(req: Express.Request, res:Express.Response, next:any
 
 //Get all the exercise
 export const getAllAsks =async (req: Express.Request, res:Express.Response, next:any)=>{
-    let page = Number(String(req.query.page)) - 1 || 0 ;
-    const limit = Number(String((req.query.limit))) || 10;
+    const defaultLimit = 10;
+    let page = Number(String(req.query.page))-1 || 0 ;
+    const limit = Number(String((req.query.limit))) || defaultLimit;
     const search = req.query.search || "";
 
     let category: string | string[] = String(req.query.category)! || "All";
 
     
 
-    const categories = await Category.find({}).sort({createdAt: -1})
+    const categories = await Category.find({}).sort({createdAt: -1}).select("name")
 
-    const allCategories = categories.map(category => {
-        return category.name;
-    })
+    const allCategories = categories.map(category => category.name);
 
     category === "All" ? (category  = [...allCategories])
                         : (category = category.split(","));

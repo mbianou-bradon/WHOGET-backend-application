@@ -19,6 +19,25 @@ const askSchema = new mongoose.Schema({
     visibility: {
         type: Boolean,
         required: [true, "Give visibility of ask"]
+    },
+    location:{
+    	type: String,
+    	required: [true, "An Ask should have a Location"]
+    },
+    report : {
+        type: Number,
+        required : [true, "Number of times this ask was reported"]
+    },
+    userInfo: {
+	_id : {
+		type: String,	    	
+	 },
+	userName: {
+	    	type: String
+	},
+	userProfile: {
+	    	type: String
+	}
     }
 },{timestamps: true})
 
