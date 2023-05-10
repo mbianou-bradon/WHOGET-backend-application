@@ -10,7 +10,7 @@ const askSchema = new mongoose.Schema({
         required: [true, "An ASK must belong to atleast one Category"]
     },
     image: {
-        type: [String]
+        type: Array
     },
     duration: {
         type: Number,
