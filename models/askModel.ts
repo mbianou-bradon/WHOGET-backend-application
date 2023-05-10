@@ -22,7 +22,7 @@ const askSchema = new mongoose.Schema({
     },
     location:{
     	type: String,
-    	required: [true, "An Ask should have a Location"]
+    	// required: [true, "An Ask should have a Location"]
     },
     report : {
         type: Number,

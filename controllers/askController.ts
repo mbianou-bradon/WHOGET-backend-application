@@ -8,27 +8,30 @@ import Category from "../models/categoryModel"
 // Create a new exercise and store in database
 export const createAsk = async(req: Express.Request, res:Express.Response, next:any)=>{
 
-    const {message, category, image, duration, visibility,report, userProfile} = req.body
+    const {message, category, image, location, duration, visibility,report, userProfile} = req.body
    
     const ask = {
         message,
         category,
         image,
+        location,
         duration,
         visibility,
         report,
         userProfile
     }
-
-    const newAsk = await Ask.create(ask)
-
+    try {
+        const newAsk = await Ask.create(ask)
+        return next(
+            res.status(201).json({
+                status: "OK",
+                data: newAsk
+            })
+        )
+        } catch (error) {
+        return next(res.status(404).json({error}))
+    }
     
-    return next(
-        res.status(201).json({
-            status: "OK",
-            data: newAsk
-        })
-    )
 }
 
 
