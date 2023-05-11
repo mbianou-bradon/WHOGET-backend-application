@@ -34,7 +34,9 @@ mongoose.connect(DBURI)
 
 // // middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    "origin": "*",
+}));
 
 app.use((req, res, next)=>{
     console.log(req.path, req.method);
