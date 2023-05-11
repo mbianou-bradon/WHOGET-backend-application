@@ -3,6 +3,7 @@ import mongoose from "mongoose"
 import askRoutes from "./routes/askRoutes"
 import userRoutes from "./routes/userRoutes"
 import categoryRoutes from "./routes/categoryRoutes"
+import cors from "cors"
 
 
 
@@ -33,6 +34,7 @@ mongoose.connect(DBURI)
 
 // // middleware
 app.use(express.json());
+app.use(cors());
 
 app.use((req, res, next)=>{
     console.log(req.path, req.method);
