@@ -24,6 +24,12 @@ const userSchema = new mongoose.Schema({
         type: [String],
         required: [true, "user must subscribe to atleast one category"]
     },
+    phoneNumber: {
+        type: Number,
+    },
+    email: {
+        type: String,
+    },
     strikes : {
         type : Number,
     },
