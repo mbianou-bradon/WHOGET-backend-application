@@ -28,17 +28,15 @@ const askSchema = new mongoose.Schema({
         type: Number,
         required : [true, "Number of times this ask was reported"]
     },
-    userInfo: {
-	_id : {
+	userId : {
 		type: String,	    	
 	 },
 	userName: {
-	    	type: String
+	    type: String
 	},
 	userProfile: {
-	    	type: String
+	   	type: String
 	}
-    }
 },{timestamps: true})
 
 const Ask = mongoose.model("Ask", askSchema)

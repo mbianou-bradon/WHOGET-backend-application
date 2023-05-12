@@ -12,13 +12,12 @@ const userSchema = new mongoose.Schema({
     age: {
         type: Number,
     },
-    location: {
-        town: {
-            type: String
-        },
-        country: {
-            type: String
-        }
+    town: {
+        type: String
+    },
+    country: {
+        type: String
+
     },
     category: {
         type: [String],
