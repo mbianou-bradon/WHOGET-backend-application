@@ -35,7 +35,7 @@ mongoose.connect(DBURI)
 // // middleware
 app.use(express.json());
 app.use(cors({
-    "origin": ["http://127.0.0.1:3000","https://whoget.vercel.app/"],
+    "origin": ["http://127.0.0.1:3000","https://whoget.vercel.app"],
     "methods": ["GET","POST","PATCH","DELETE"]
 }));
 
