@@ -7,7 +7,6 @@ const userSchema = new mongoose.Schema({
     },
     profileImage: {
         type: String,
-        required: [true, "profileImage is required"]
     },
     age: {
         type: Number,
@@ -28,6 +27,10 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
+        required : [true, "Please Add an Email address"]
+    },
+    userWhatsapp : {
+        type: String
     },
     strikes : {
         type : Number,
