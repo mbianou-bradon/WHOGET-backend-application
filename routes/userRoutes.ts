@@ -1,5 +1,5 @@
 import Express from "express"
-import { createUser, deleteUser, getAllUsers, getUser, updateUser } from "../controllers/userController";
+import { createUser, deleteUser, getAllUsers, getUser, getUserThroughEmail, updateUser } from "../controllers/userController";
 
 
 
@@ -14,6 +14,9 @@ router.post('/', createUser);
 
 //Get a Single User
 router.get('/:id', getUser);
+
+//Get a Single User
+router.get('/email/:email', getUserThroughEmail);
 
 //Delete a User
 router.delete('/:id', deleteUser);

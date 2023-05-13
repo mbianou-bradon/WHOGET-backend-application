@@ -23,16 +23,17 @@ export const createUser = async(req: Express.Request, res:Express.Response, next
         firstTime
 
     }
-
+    try {
     const newUser = await User.create(user)
-
-    
     return next(
-        res.status(201).json({
-            status: "OK",
-            data: newUser
-        })
-    )
+      res.status(201).json({
+        status: "OK",
+        data: newUser,
+      })
+    );
+  } catch (error) {
+    return next(res.status(404).json({ error }));
+  }
 }
 
 
@@ -46,6 +47,29 @@ export const getUser = async(req: Express.Request, res:Express.Response, next:an
     }
    
     const user = await User.findById(id)
+
+    if(!user){
+        return res.status(404).json({message: "User Doesn't exist! Not Found!"})
+    }
+
+    return next(
+        res.status(201).json({
+            status: "OK",
+            data: user,
+        })
+    )
+};
+
+export const getUserThroughEmail = async(req: Express.Request, res:Express.Response, next:any)=>{
+    const { email }  = req.params;
+
+
+    // if(!mongoose.Types.ObjectId.isValid(id)){
+    //     return res.status(404).json({message: "User Doesn't exist! Wrong id"})
+    // }
+   
+    // const user = await User.findById(id)
+    const user = await User.findOne({email})
 
     if(!user){
         return res.status(404).json({message: "User Doesn't exist! Not Found!"})
