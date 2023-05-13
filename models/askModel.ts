@@ -18,7 +18,6 @@ const askSchema = new mongoose.Schema({
     },
     visibility: {
         type: Boolean,
-        required: [true, "Give visibility of ask"]
     },
     location:{
     	type: String,
@@ -36,7 +35,16 @@ const askSchema = new mongoose.Schema({
 	},
 	userProfile: {
 	   	type: String
-	}
+	},
+    userEmail: {
+        type: String
+    },
+    userPhone: {
+        type: String
+    },
+    userWhatsApp: {
+        type: String
+    },
 },{timestamps: true})
 
 const Ask = mongoose.model("Ask", askSchema)
