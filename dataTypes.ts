@@ -6,12 +6,7 @@ export interface AskType {
     visibility: boolean,
     location: string
     report: number,
-    userId: string,
-    userName: string,
-    userProfile: string,
-    userEmail: string,
-    userPhone: string,
-    userWhatsapp: string
+    user: string,
 }
 
 export interface categoryType {
