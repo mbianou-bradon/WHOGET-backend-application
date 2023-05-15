@@ -64,24 +64,31 @@ export const getUser = async(req: Express.Request, res:Express.Response, next:an
 export const getUserThroughEmail = async(req: Express.Request, res:Express.Response, next:any)=>{
     const { email }  = req.params;
 
-
-    // if(!mongoose.Types.ObjectId.isValid(id)){
-    //     return res.status(404).json({message: "User Doesn't exist! Wrong id"})
-    // }
-   
-    // const user = await User.findById(id)
     const user = await User.findOne({email})
+     console.log(typeof(user?.ban));
+
 
     if(!user){
         return res.status(404).json({message: "User Doesn't exist! Not Found!"})
     }
 
-    return next(
-        res.status(201).json({
-            status: "OK",
-            data: user,
-        })
-    )
+    if(user?.ban){
+        return next(
+            res.status(201).json({
+                status: "OK",
+                data: "This User was ban for violating Policy"
+            })
+        )
+    } 
+    else {
+        return next(
+            res.status(201).json({
+                status: "OK",
+                data: user,
+            })
+        )
+    }
+    
 };
 
 
@@ -118,7 +125,7 @@ export const getAllUsers =async (req: Express.Request, res:Express.Response, nex
 
 
 
-// Update an User
+// Update a User
 export const updateUser = async(req: Express.Request, res:Express.Response, next:any)=> {
     const { id } = req.params
 
