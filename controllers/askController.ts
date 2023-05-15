@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import Ask from "../models/askModel";
 import Category from "../models/categoryModel";
 
-// Create a new exercise and store in database
+// Create a new Ask and store in database
 export const createAsk = async (
   req: Express.Request,
   res: Express.Response,
@@ -53,7 +53,7 @@ export const createAsk = async (
   }
 };
 
-// Get a new exercise
+// Get a new Ask
 export const getAsk = async (
   req: Express.Request,
   res: Express.Response,
@@ -79,7 +79,7 @@ export const getAsk = async (
   );
 };
 
-//Get all the exercise
+//Get all the Ask
 export const getAllAsks = async (
   req: Express.Request,
   res: Express.Response,
@@ -89,6 +89,7 @@ export const getAllAsks = async (
   let page = Number(String(req.query.page)) - 1 || 0;
   const limit = Number(String(req.query.limit)) || defaultLimit;
   const search = req.query.search || "";
+  const hidden = req.query.hidden || "true";
 
   let category: string | string[] = String(req.query.category)! || "All";
 
@@ -102,17 +103,27 @@ export const getAllAsks = async (
     ? (category = [...allCategories])
     : (category = category.split(","));
 
-  const asks = await Ask.find({ message: { $regex: search, $options: "i" } })
+    let query : any = {
+      message: { $regex: search, $options: "i" },
+      category: { $in: [...category]},
+    }
+    
+    if(hidden === "true") {
+      query = {
+        message: { $regex: search, $options: "i" },
+        category: { $in: [...category]},
+        visibility : {$eq : true},
+      }
+    }
+    else if(hidden === "false"){
+      query = query;
+    }
+  const asks = await Ask.find(query)
     .sort({ createdAt: -1 })
-    .where("category")
-    .in([...category])
     .skip(page * limit)
     .limit(limit);
 
-  const result = await Ask.countDocuments({
-    category: { $in: [...category] },
-    // name: { $regex: search, $options: "i"}
-  });
+  const result = await Ask.countDocuments(query);
 
   const response = {
     error: false,
@@ -126,7 +137,7 @@ export const getAllAsks = async (
   return next(res.status(200).json(response));
 };
 
-// Update an exercise
+// Update an Ask
 export const updateAsk = async (
   req: Express.Request,
   res: Express.Response,
@@ -167,7 +178,7 @@ export const updateAsk = async (
   );
 };
 
-// Delete an exercise
+// Delete an Ask
 export const deleteAsk = async (
   req: Express.Request,
   res: Express.Response,
