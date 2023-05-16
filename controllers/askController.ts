@@ -22,7 +22,7 @@ export const createAsk = async (
     userProfile,
     userEmail,
     userPhone,
-    userWhatsApp,
+    userWhatsapp,
   } = req.body;
 
   const ask = {
@@ -38,7 +38,7 @@ export const createAsk = async (
     userProfile,
     userEmail,
     userPhone,
-    userWhatsApp,
+    userWhatsapp,
   };
   try {
     const newAsk = await Ask.create(ask);

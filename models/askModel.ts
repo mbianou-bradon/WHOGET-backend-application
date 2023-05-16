@@ -42,7 +42,7 @@ const askSchema = new mongoose.Schema({
     userPhone: {
         type: String
     },
-    userWhatsApp: {
+    userWhatsapp: {
         type: String
     },
 },{timestamps: true})

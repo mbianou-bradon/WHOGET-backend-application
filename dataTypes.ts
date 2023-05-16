@@ -1,9 +1,17 @@
 export interface AskType {
     message: string,
     category:string,
-    image?:string
+    image?:string[],
     duration: number,
-    visibility: boolean
+    visibility: boolean,
+    location: string
+    report: number,
+    userId: string,
+    userName: string,
+    userProfile: string,
+    userEmail: string,
+    userPhone: string,
+    userWhatsapp: string
 }
 
 export interface categoryType {
