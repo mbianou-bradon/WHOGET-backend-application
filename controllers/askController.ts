@@ -17,12 +17,7 @@ export const createAsk = async (
     duration,
     visibility,
     report,
-    userId,
-    userName,
-    userProfile,
-    userEmail,
-    userPhone,
-    userWhatsapp,
+    user
   } = req.body;
 
   const ask = {
@@ -33,12 +28,7 @@ export const createAsk = async (
     duration,
     visibility,
     report,
-    userId,
-    userName,
-    userProfile,
-    userEmail,
-    userPhone,
-    userWhatsapp,
+    user
   };
   try {
     const newAsk = await Ask.create(ask);
@@ -65,7 +55,7 @@ export const getAsk = async (
     return res.status(404).json({ message: "Ask Doesn't exist! Wrong id" });
   }
 
-  const ask = await Ask.findById(id);
+  const ask = await Ask.findById(id).populate({path: "user", select: "-createdAt -updatedAt -category -age -strikes -firstTime -ban -oAuthToken", options: {strictPopulate: false}});
 
   if (!ask) {
     return res.status(404).json({ message: "Ask Doesn't exist! Not Found!" });
@@ -91,6 +81,7 @@ export const getAllAsks = async (
   const search = req.query.search || "";
   const hidden = req.query.hidden || "true";
 
+
   let category: string | string[] = String(req.query.category)! || "All";
 
   const categories = await Category.find({})
@@ -103,25 +94,25 @@ export const getAllAsks = async (
     ? (category = [...allCategories])
     : (category = category.split(","));
 
-    let query : any = {
-      message: { $regex: search, $options: "i" },
-      category: { $in: [...category]},
+  let query : any = {
+    message: { $regex: search, $options: "i" },
+    category: { $in: [...category]},
+  }
+  
+  if(hidden === "true") {
+    query = {
+      ...query,
+      visibility : {$eq : true},
     }
-    
-    if(hidden === "true") {
-      query = {
-        message: { $regex: search, $options: "i" },
-        category: { $in: [...category]},
-        visibility : {$eq : true},
-      }
-    }
-    else if(hidden === "false"){
-      query = query;
-    }
+  }
+  else if(hidden === "false"){
+    query = query;
+  }
   const asks = await Ask.find(query)
     .sort({ createdAt: -1 })
     .skip(page * limit)
-    .limit(limit);
+    .limit(limit)
+    .populate({path: "user", select: "-createdAt -updatedAt -category -age -strikes -firstTime -ban -oAuthToken", options: {strictPopulate: false}});
 
   const result = await Ask.countDocuments(query);
 
@@ -133,7 +124,68 @@ export const getAllAsks = async (
     category: categories,
     asks,
   };
-  // next(res.status(200).send('It worked!'));
+
+  return next(res.status(200).json(response));
+};
+
+// Get All Asks per filtering params
+export const getAllFilteredAsks = async (
+  req: Express.Request,
+  res: Express.Response,
+  next: any
+) => {
+  const defaultLimit = 10;
+  let page = Number(String(req.query.page)) - 1 || 0;
+  const limit = Number(String(req.query.limit)) || defaultLimit;
+  const search = req.query.search || "";
+  const hidden = req.query.hidden || "true";
+  const location = req.query.location || "";
+  const date = req.query.date || "";
+
+  let category: string | string[] = String(req.query.category)! || "All";
+
+  const categories = await Category.find({}).sort({ createdAt: -1 }).select("name");
+
+  const allCategories = categories.map((category) => category.name);
+
+  category === "All" ? (category = [...allCategories]) : (category = category.split(","));
+
+  let query : any = {
+    message: { $regex: search, $options: "i" },
+    category: { $in: [...category]},
+  }
+  
+  if(hidden === "true") 
+    query = {...query, visibility : {$eq : true}}
+  
+  else if(hidden === "false")
+    query = query;
+  
+  if(location !== "")
+    query = {...query, location : { $eq: location }}
+
+  if(date !== "")
+    query = {...query, duration : { $eq: date }}
+
+  console.log(query);
+
+  const asks = await Ask.find(query)
+    .sort({ createdAt: -1 })
+    .skip(page * limit)
+    .limit(limit)
+    .populate({path: "user", select: "-createdAt -updatedAt -category -age -strikes -firstTime -ban -oAuthToken", options: {strictPopulate: false}});
+
+  const result = await Ask.countDocuments(query);
+
+  const response = {
+    error: false,
+    result,
+    limit,
+    page: page + 1,
+    category: categories,
+    asks,
+  };
+
   return next(res.status(200).json(response));
 };
 

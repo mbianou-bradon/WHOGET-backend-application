@@ -7,10 +7,11 @@ import User from "../models/userModel"
 // Create a new User and store in database
 export const createUser = async(req: Express.Request, res:Express.Response, next:any)=>{
 
-    const {username, profileImage, age, town, country, category, phoneNumber, userWhatsapp, email, strikes, ban, firstTime} = req.body
+    const {username, oAuthToken, profileImage, age, town, country, category, phoneNumber, userWhatsapp, email, strikes, ban, firstTime} = req.body
    
     const user = {
         username,
+        oAuthToken,
         profileImage,
         age,
         town,
@@ -105,7 +106,6 @@ export const getAllUsers =async (req: Express.Request, res:Express.Response, nex
                     .limit(limit);
 
     const result = await User.countDocuments({
-        // category: {$in: [...category]},
         username: { $regex: search, $options: "i"}
     })
     

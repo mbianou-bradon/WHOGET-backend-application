@@ -1,12 +1,14 @@
 import Express from "express"
-import { createAsk, getAllAsks, getAsk, deleteAsk, updateAsk} from "../controllers/askController"
+import { createAsk, getAllAsks, getAsk, deleteAsk, updateAsk, getAllFilteredAsks} from "../controllers/askController"
 
 
 const router = Express.Router()
 
 // Get all ASKs
-
 router.get('/', getAllAsks);
+
+// Get all Filtered ASKs
+router.get('/filter', getAllFilteredAsks);
 
 //Create an ASK
 router.post('/', createAsk);

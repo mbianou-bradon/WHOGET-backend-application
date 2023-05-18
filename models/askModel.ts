@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import User from "./userModel";
 
 const askSchema = new mongoose.Schema({
     message: {
@@ -21,30 +22,31 @@ const askSchema = new mongoose.Schema({
     },
     location:{
     	type: String,
-    	// required: [true, "An Ask should have a Location"]
     },
     report : {
         type: Number,
         required : [true, "Number of times this ask was reported"]
     },
-	userId : {
-		type: String,	    	
-	 },
-	userName: {
-	    type: String
+	user : {
+		type: mongoose.Schema.Types.ObjectId,	
+        ref: User,
+        required: [true, "Every Ask must have a userId"]     	
 	},
-	userProfile: {
-	   	type: String
-	},
-    userEmail: {
-        type: String
-    },
-    userPhone: {
-        type: String
-    },
-    userWhatsapp: {
-        type: String
-    },
+	// userName: {
+	//     type: String
+	// },
+	// userProfile: {
+	//    	type: String
+	// },
+    // userEmail: {
+    //     type: String
+    // },
+    // userPhone: {
+    //     type: String
+    // },
+    // userWhatsapp: {
+    //     type: String
+    // },
 },{timestamps: true})
 
 const Ask = mongoose.model("Ask", askSchema)

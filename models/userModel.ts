@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
+    oAuthToken: {
+        type: String,
+        required: [true, "Auth token required!"]
+    },
     username: {
         type: String,
         required: [true, "username is required"]
